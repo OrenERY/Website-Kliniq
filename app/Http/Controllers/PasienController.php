@@ -20,7 +20,8 @@ class PasienController extends Controller
         $request->validate([
             'nama_pasien' => 'required|string|max:255',
             'nik' => 'required|numeric|digits:16',
-            'alamat' => 'required|string',
+            'alamat_detail' => 'required|string',
+            'kecamatan' => 'required|string',
             'poli_tujuan' => 'required|string',
         ]);
 
@@ -36,11 +37,14 @@ class PasienController extends Controller
         
         $nomor_antrian = strtoupper($kode_poli) . '-' . sprintf("%03d", $count + 1);
 
+        // Gabungkan alamat
+        $alamat_lengkap = $request->alamat_detail . ', Kec. ' . $request->kecamatan . ', Sumedang';
+
         // Simpan ke database menggunakan Query Builder (biar universal tanpa Model dulu)
         DB::table('pasiens')->insert([
             'nama_pasien' => $request->nama_pasien,
             'nik' => $request->nik,
-            'alamat' => $request->alamat,
+            'alamat' => $alamat_lengkap,
             'poli_tujuan' => $request->poli_tujuan,
             'nomor_antrian' => $nomor_antrian,
             'status' => 'menunggu',

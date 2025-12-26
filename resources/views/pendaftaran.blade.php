@@ -42,12 +42,50 @@
                 </div>
 
                 <div>
-                    <label for="alamat" class="block text-sm font-medium text-gray-700 mb-1">Alamat Domisili</label>
+                    <label for="alamat_detail" class="block text-sm font-medium text-gray-700 mb-1">Alamat Domisili (Jalan, RT/RW, Dusun)</label>
                     <div class="relative rounded-md shadow-sm">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-start pt-2 pointer-events-none">
                             <i data-feather="map-pin" class="h-5 w-5 text-gray-400"></i>
                         </div>
-                        <textarea name="alamat" id="alamat" rows="3" required class="focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md py-2 border" placeholder="Alamat lengkap"></textarea>
+                        <textarea name="alamat_detail" id="alamat_detail" rows="2" required class="focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md py-2 border" placeholder="Nama Jalan, RT/RW, No Rumah..."></textarea>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="kecamatan" class="block text-sm font-medium text-gray-700 mb-1">Kecamatan (Kab. Sumedang)</label>
+                    <div class="relative rounded-md shadow-sm">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i data-feather="map" class="h-5 w-5 text-gray-400"></i>
+                        </div>
+                        <select name="kecamatan" id="kecamatan" required class="focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md py-2 border">
+                            <option value="" disabled selected>Pilih Kecamatan...</option>
+                            <option value="Buahdua">Buahdua</option>
+                            <option value="Cibugel">Cibugel</option>
+                            <option value="Cimalaka">Cimalaka</option>
+                            <option value="Cimanggung">Cimanggung</option>
+                            <option value="Cisarua">Cisarua</option>
+                            <option value="Cisitu">Cisitu</option>
+                            <option value="Conggeang">Conggeang</option>
+                            <option value="Darmaraja">Darmaraja</option>
+                            <option value="Ganeas">Ganeas</option>
+                            <option value="Jatigede">Jatigede</option>
+                            <option value="Jatinangor">Jatinangor</option>
+                            <option value="Jatinunggal">Jatinunggal</option>
+                            <option value="Pamulihan">Pamulihan</option>
+                            <option value="Paseh">Paseh</option>
+                            <option value="Rancakalong">Rancakalong</option>
+                            <option value="Situraja">Situraja</option>
+                            <option value="Sukasari">Sukasari</option>
+                            <option value="Sumedang Selatan">Sumedang Selatan</option>
+                            <option value="Sumedang Utara">Sumedang Utara</option>
+                            <option value="Surian">Surian</option>
+                            <option value="Tanjungkerta">Tanjungkerta</option>
+                            <option value="Tanjungmedar">Tanjungmedar</option>
+                            <option value="Tanjungsari">Tanjungsari</option>
+                            <option value="Tomo">Tomo</option>
+                            <option value="Ujungjaya">Ujungjaya</option>
+                            <option value="Wado">Wado</option>
+                        </select>
                     </div>
                 </div>
 
