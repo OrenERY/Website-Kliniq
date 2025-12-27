@@ -25,3 +25,5 @@ Route::get('/antrian', [PasienController::class, 'showQueue'])->name('queue.show
 
 // Redirect /dashboard atau lainnya jika perlu, sementara kita fokus ke tugas
 // Route::get('/dashboard', function () { return view('dashboard'); });
+
+require __DIR__.'/settings.php';
