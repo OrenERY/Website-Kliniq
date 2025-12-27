@@ -15,7 +15,7 @@ use App\Http\Controllers\PasienController;
 */
 
 // Halaman Utama: Pendaftaran
-Route::get('/', [PasienController::class, 'index'])->name('pendaftaran.index');
+Route::get('/', [PasienController::class, 'index'])->name('home');
 
 // Proses Simpan Pendaftaran
 Route::post('/pendaftaran', [PasienController::class, 'store'])->name('pendaftaran.store');
