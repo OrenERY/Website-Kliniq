@@ -10,13 +10,11 @@ class PasienController extends Controller
 {
     public function index()
     {
-        // Menampilkan halaman pendaftaran
         return view('pendaftaran');
     }
 
     public function store(Request $request)
     {
-        // Validasi input
         $request->validate([
             'nama_pasien' => 'required|string|max:255',
             'nik' => 'required|numeric|digits:16',
@@ -25,9 +23,8 @@ class PasienController extends Controller
             'poli_tujuan' => 'required|string',
         ]);
 
-        // Generate Nomor Antrian (Format: POLI-001)
-        // Contoh sederhana: A-001 untuk Umum, B-001 untuk Gigi, dll.
-        $kode_poli = substr($request->poli_tujuan, 0, 1); // Ambil huruf pertama poli
+        // Generate Nomor Antrian
+        $kode_poli = substr($request->poli_tujuan, 0, 1);
         $today = Carbon::today();
         
         $count = DB::table('pasiens')
@@ -37,10 +34,8 @@ class PasienController extends Controller
         
         $nomor_antrian = strtoupper($kode_poli) . '-' . sprintf("%03d", $count + 1);
 
-        // Gabungkan alamat
         $alamat_lengkap = $request->alamat_detail . ', Kec. ' . $request->kecamatan . ', Sumedang';
 
-        // Simpan ke database menggunakan Query Builder (biar universal tanpa Model dulu)
         DB::table('pasiens')->insert([
             'nama_pasien' => $request->nama_pasien,
             'nik' => $request->nik,
@@ -59,10 +54,9 @@ class PasienController extends Controller
     {
         $antrian = DB::table('pasiens')
                     ->whereDate('created_at', Carbon::today())
-                    ->orderBy('id', 'desc') // Tampilkan yang terbaru daftar
+                    ->orderBy('id', 'desc')
                     ->get();
         
-        // Mengambil antrian yang sedang dipanggil (status admin) - Opsional
         $current = DB::table('pasiens')
                     ->whereDate('created_at', Carbon::today())
                     ->where('status', 'dipanggil')

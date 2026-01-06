@@ -27,18 +27,21 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
                 <div class="flex">
-                    <div class="flex-shrink-0 flex items-center">
+                    <a href="{{ route('landing') }}" class="flex-shrink-0 flex items-center">
                         <i data-feather="activity" class="text-blue-600 mr-2"></i>
                         <span class="font-bold text-xl text-gray-900">RS Sehat Selalu</span>
-                    </div>
+                    </a>
                 </div>
                 <div class="flex items-center space-x-4">
-                    <a href="{{ route('pendaftaran.index') }}" class="px-3 py-2 rounded-md text-sm font-medium {{ request()->routeIs('pendaftaran.index') ? 'bg-blue-50 text-blue-700' : 'text-gray-500 hover:text-gray-700' }}">
-                        Pendaftaran
-                    </a>
-                    <a href="{{ route('queue.show') }}" class="px-3 py-2 rounded-md text-sm font-medium {{ request()->routeIs('queue.show') ? 'bg-blue-50 text-blue-700' : 'text-gray-500 hover:text-gray-700' }}">
-                        Antrian
-                    </a>
+                    <!-- Navigation Removed as per request to enforce gateway flow -->
+                    @if(session('admin_authenticated'))
+                        <form action="{{ route('admin.logout') }}" method="POST" class="inline">
+                            @csrf
+                            <button type="submit" class="text-sm font-medium text-red-600 hover:text-red-800 transition">
+                                Logout
+                            </button>
+                        </form>
+                    @endif
                 </div>
             </div>
         </div>
@@ -52,12 +55,13 @@
 
     <footer class="bg-white border-t border-gray-200 mt-auto py-6">
         <div class="max-w-7xl mx-auto px-4 text-center text-sm text-gray-500">
-            &copy; {{ date('Y') }} Rumah Sakit Sehat Selalu. Built with Laravel 12 & Tailwind v3.
+            &copy; {{ date('Y') }} Rumah Sakit Sehat Selalu.
         </div>
     </footer>
 
     <script>
         feather.replace();
     </script>
+    @yield('scripts')
 </body>
 </html>

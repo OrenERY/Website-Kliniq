@@ -14,16 +14,22 @@ use App\Http\Controllers\PasienController;
 |
 */
 
-// Halaman Utama: Pendaftaran
-Route::get('/', [PasienController::class, 'index'])->name('home');
+// Halaman Utama: Landing
+Route::get('/', function () {
+    return view('onboarding');
+})->name('landing');
 
-// Proses Simpan Pendaftaran
+Route::get('/pendaftaran', [PasienController::class, 'index'])->name('pendaftaran.index');
 Route::post('/pendaftaran', [PasienController::class, 'store'])->name('pendaftaran.store');
-
-// Halaman Antrian
 Route::get('/antrian', [PasienController::class, 'showQueue'])->name('queue.show');
 
-// Redirect /dashboard atau lainnya jika perlu, sementara kita fokus ke tugas
-// Route::get('/dashboard', function () { return view('dashboard'); });
+Route::prefix('admin')->group(function () {
+    Route::get('/login', [App\Http\Controllers\AdminController::class, 'showLoginForm'])->name('admin.login');
+    Route::post('/login', [App\Http\Controllers\AdminController::class, 'login'])->name('admin.login.submit');
+    Route::post('/logout', [App\Http\Controllers\AdminController::class, 'logout'])->name('admin.logout');
+    
+    Route::get('/', [App\Http\Controllers\AdminController::class, 'index'])->name('admin.dashboard');
+    Route::patch('/assign/{id}', [App\Http\Controllers\AdminController::class, 'assignDoctor'])->name('admin.assign');
+});
 
 require __DIR__.'/settings.php';
