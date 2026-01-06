@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
 
 class PasienController extends Controller
 {
@@ -25,15 +25,15 @@ class PasienController extends Controller
 
         $kode_poli = substr($request->poli_tujuan, 0, 1);
         $today = Carbon::today();
-        
-        $count = DB::table('pasiens')
-                    ->whereDate('created_at', $today)
-                    ->where('poli_tujuan', $request->poli_tujuan)
-                    ->count();
-        
-        $nomor_antrian = strtoupper($kode_poli) . '-' . sprintf("%03d", $count + 1);
 
-        $alamat_lengkap = $request->alamat_detail . ', Kec. ' . $request->kecamatan . ', Sumedang';
+        $count = DB::table('pasiens')
+            ->whereDate('created_at', $today)
+            ->where('poli_tujuan', $request->poli_tujuan)
+            ->count();
+
+        $nomor_antrian = strtoupper($kode_poli).'-'.sprintf('%03d', $count + 1);
+
+        $alamat_lengkap = $request->alamat_detail.', Kec. '.$request->kecamatan.', Sumedang';
 
         DB::table('pasiens')->insert([
             'nama_pasien' => $request->nama_pasien,
@@ -46,20 +46,20 @@ class PasienController extends Controller
             'updated_at' => now(),
         ]);
 
-        return redirect()->route('queue.show')->with('success', 'Pendaftaran Berhasil! Nomor Antrian Anda: ' . $nomor_antrian);
+        return redirect()->route('queue.show')->with('success', 'Pendaftaran Berhasil! Nomor Antrian Anda: '.$nomor_antrian);
     }
 
     public function showQueue()
     {
         $antrian = DB::table('pasiens')
-                    ->whereDate('created_at', Carbon::today())
-                    ->orderBy('id', 'desc')
-                    ->get();
-        
+            ->whereDate('created_at', Carbon::today())
+            ->orderBy('id', 'desc')
+            ->get();
+
         $current = DB::table('pasiens')
-                    ->whereDate('created_at', Carbon::today())
-                    ->where('status', 'dipanggil')
-                    ->first();
+            ->whereDate('created_at', Carbon::today())
+            ->where('status', 'dipanggil')
+            ->first();
 
         return view('antrian', compact('antrian', 'current'));
     }

@@ -58,7 +58,7 @@ class DatabaseSeeder extends Seeder
                 'poli_tujuan' => 'Poli Gigi',
                 'nomor_antrian' => 'B-002',
                 'status' => 'menunggu',
-            ]
+            ],
         ];
 
         foreach ($pasiens as $data) {

@@ -46,5 +46,12 @@ jobs:
       - name: Generate Application Key
         run: php artisan key:generate
 
+      - name: Ensure Vite Manifest Exists
+        run: |
+          if [ ! -f public/build/manifest.json ]; then
+            echo "Vite manifest not found!";
+            exit 1;
+          fi
+
       - name: Tests
         run: ./vendor/bin/pest

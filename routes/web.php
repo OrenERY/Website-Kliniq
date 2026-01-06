@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PasienController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,7 +26,7 @@ Route::prefix('admin')->group(function () {
     Route::get('/login', [App\Http\Controllers\AdminController::class, 'showLoginForm'])->name('admin.login');
     Route::post('/login', [App\Http\Controllers\AdminController::class, 'login'])->name('admin.login.submit');
     Route::post('/logout', [App\Http\Controllers\AdminController::class, 'logout'])->name('admin.logout');
-    
+
     Route::get('/', [App\Http\Controllers\AdminController::class, 'index'])->name('admin.dashboard');
     Route::patch('/assign/{id}', [App\Http\Controllers\AdminController::class, 'assignDoctor'])->name('admin.assign');
 });

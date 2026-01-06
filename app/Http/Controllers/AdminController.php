@@ -2,30 +2,30 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
 
 class AdminController extends Controller
 {
     private $doctors = [
         'Umum' => ['Dr. Budi Santoso', 'Dr. Siti Aminah'],
         'Gigi' => ['Drg. Ahmad Dhani', 'Drg. Raisa Andriana'],
-        'Anak' => ['Dr. Kak Seto', 'Dr. Ria Ricis'],
-        'Penyakit Dalam' => ['Dr. Boyke', 'Dr. Lula Kamal']
+        'Anak' => ['Dr. Seto', 'Dr. Rina'],
+        'Penyakit Dalam' => ['Dr. Boyke', 'Dr. Lula'],
     ];
 
     public function index()
     {
-        if (!session('admin_authenticated')) {
+        if (! session('admin_authenticated')) {
             return redirect()->route('admin.login');
         }
 
         $pasiens = DB::table('pasiens')
-                    ->whereDate('created_at', Carbon::today())
-                    ->orderBy('created_at', 'desc')
-                    ->get();
-        
+            ->whereDate('created_at', Carbon::today())
+            ->orderBy('created_at', 'desc')
+            ->get();
+
         $doctors = $this->doctors;
 
         return view('admin.dashboard', compact('pasiens', 'doctors'));
@@ -36,6 +36,7 @@ class AdminController extends Controller
         if (session('admin_authenticated')) {
             return redirect()->route('admin.dashboard');
         }
+
         return view('admin.login');
     }
 
@@ -47,6 +48,7 @@ class AdminController extends Controller
 
         if ($request->pin === '160305') {
             session(['admin_authenticated' => true]);
+
             return redirect()->route('admin.dashboard');
         }
 
@@ -56,12 +58,13 @@ class AdminController extends Controller
     public function logout()
     {
         session()->forget('admin_authenticated');
+
         return redirect()->route('landing');
     }
 
     public function assignDoctor(Request $request, $id)
     {
-        if (!session('admin_authenticated')) {
+        if (! session('admin_authenticated')) {
             return redirect()->route('admin.login');
         }
 
