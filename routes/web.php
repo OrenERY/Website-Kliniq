@@ -14,7 +14,6 @@ use App\Http\Controllers\PasienController;
 |
 */
 
-// Halaman Utama: Landing
 Route::get('/', function () {
     return view('onboarding');
 })->name('landing');

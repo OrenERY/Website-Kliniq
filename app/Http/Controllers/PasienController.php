@@ -23,7 +23,6 @@ class PasienController extends Controller
             'poli_tujuan' => 'required|string',
         ]);
 
-        // Generate Nomor Antrian
         $kode_poli = substr($request->poli_tujuan, 0, 1);
         $today = Carbon::today();
         
