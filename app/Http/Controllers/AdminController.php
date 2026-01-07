@@ -21,14 +21,31 @@ class AdminController extends Controller
             return redirect()->route('admin.login');
         }
 
+        $today = now()->today();
+
+        // Active Queues (assigned or waiting)
         $pasiens = DB::table('pasiens')
-            ->whereDate('created_at', Carbon::today())
-            ->orderBy('created_at', 'desc')
+            ->whereDate('created_at', $today)
+            ->where('status', '!=', 'menunggu_pembayaran')
+            ->where('status', '!=', 'selesai')
+            ->orderBy('id', 'asc')
             ->get();
 
-        $doctors = $this->doctors;
+        // Pending Payments
+        $pendingPayments = DB::table('pasiens')
+            ->whereDate('created_at', $today)
+            ->where('status', 'menunggu_pembayaran')
+            ->orderBy('created_at', 'asc')
+            ->get();
 
-        return view('admin.dashboard', compact('pasiens', 'doctors'));
+        $doctors = [
+            'Dr. Budi Santoso, Sp.PD',
+            'Dr. Siti Aminah, Sp.A',
+            'Dr. Andi Wijaya, Sp.JP',
+            'Dr. Rina Kartika, Sp.M'
+        ];
+
+        return view('admin.dashboard', compact('pasiens', 'pendingPayments', 'doctors'));
     }
 
     public function showLoginForm()
@@ -81,5 +98,66 @@ class AdminController extends Controller
             ]);
 
         return redirect()->back()->with('success', 'Dokter berhasil ditugaskan!');
+    }
+
+    public function verifyPayment($id)
+    {
+        if (! session('admin_authenticated')) {
+            return redirect()->route('admin.login');
+        }
+
+        $patient = DB::table('pasiens')->where('id', $id)->first();
+        if (!$patient) return redirect()->back()->with('error', 'Data tidak ditemukan');
+
+        // Generate Queue Number
+        $today = now()->today();
+        $kode_poli = substr($patient->poli_tujuan, 0, 1);
+        
+        // Count existing valid queues for this poli today
+        $count = DB::table('pasiens')
+            ->whereDate('created_at', $today)
+            ->where('poli_tujuan', $patient->poli_tujuan)
+            ->where('status', '!=', 'menunggu_pembayaran')
+            ->count();
+        
+        $nomor_antrian = strtoupper($kode_poli).'-'.sprintf('%03d', $count + 1);
+
+        DB::table('pasiens')
+            ->where('id', $id)
+            ->update([
+                'status' => 'menunggu',
+                'status_pembayaran' => 'lunas',
+                'nomor_antrian' => $nomor_antrian,
+                'updated_at' => now(),
+            ]);
+
+        return redirect()->back()->with('success', 'Pembayaran Terverifikasi! Antrian Diterbitkan: ' . $nomor_antrian);
+    }
+
+    public function storeExamination(Request $request, $id)
+    {
+        if (! session('admin_authenticated')) {
+            return redirect()->route('admin.login');
+        }
+
+        $request->validate([
+            'diagnosa' => 'required|string',
+            'tindakan' => 'nullable|string',
+            'resep_obat' => 'nullable|string',
+            'catatan_dokter' => 'nullable|string',
+        ]);
+
+        DB::table('pasiens')
+            ->where('id', $id)
+            ->update([
+                'diagnosa' => $request->diagnosa,
+                'tindakan' => $request->tindakan,
+                'resep_obat' => $request->resep_obat,
+                'catatan_dokter' => $request->catatan_dokter,
+                'status' => 'selesai',
+                'updated_at' => now(),
+            ]);
+            
+        return redirect()->back()->with('success', 'Pemeriksaan Selesai. Data berhasil disimpan!');
     }
 }

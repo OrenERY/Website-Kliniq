@@ -33,14 +33,28 @@
                     </a>
                 </div>
                 <div class="flex items-center space-x-4">
-                    <!-- Navigation Removed as per request to enforce gateway flow -->
                     @if(session('admin_authenticated'))
+                        <span class="text-sm font-medium text-gray-600">Admin Mode</span>
                         <form action="{{ route('admin.logout') }}" method="POST" class="inline">
                             @csrf
                             <button type="submit" class="text-sm font-medium text-red-600 hover:text-red-800 transition">
                                 Logout
                             </button>
                         </form>
+                    @elseif(session('patient_id'))
+                        <div class="flex items-center text-sm font-medium text-gray-600">
+                            <i data-feather="user" class="w-4 h-4 mr-2"></i> {{ Str::limit(session('patient_name'), 15) }}
+                        </div>
+                        <form action="{{ route('patient.logout') }}" method="POST" class="inline">
+                            @csrf
+                            <button type="submit" class="text-sm font-medium text-red-600 hover:text-red-800 transition ml-4">
+                                Logout
+                            </button>
+                        </form>
+                    @else
+                        <a href="{{ route('admin.login') }}" class="text-sm font-semibold text-gray-500 hover:text-blue-600 transition flex items-center">
+                            <i data-feather="lock" class="w-4 h-4 mr-1"></i> Login Admin
+                        </a>
                     @endif
                 </div>
             </div>
