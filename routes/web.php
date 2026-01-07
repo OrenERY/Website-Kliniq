@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('onboarding');
+    return view('index');
 })->name('landing');
 
 Route::get('/pendaftaran', [PasienController::class, 'index'])->name('pendaftaran.index');

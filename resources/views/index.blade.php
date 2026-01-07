@@ -51,7 +51,8 @@
 
     <!-- Footer Note -->
     <div class="mt-16 text-center text-gray-400 text-sm">
-        <p>&copy; {{ date('Y') }} Rumah Sakit Sehat Selalu. Sistem Antrian Digital.</p>
+        <p>&copy; {{ date('Y') }} Rumah Sakit Sehat Selalu. Sistem Antrian Digital.
+            (Protoype)</p>
     </div>
 </div>
 @endsection

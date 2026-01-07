@@ -2,6 +2,7 @@ import { wayfinder } from '@laravel/vite-plugin-wayfinder';
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import laravel from 'laravel-vite-plugin';
+import { resolve } from 'path';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
@@ -23,5 +24,14 @@ export default defineConfig({
     ],
     esbuild: {
         jsx: 'automatic',
+    },
+    build: {
+        manifest: true,
+        outDir: resolve(__dirname, 'public/build'),
+        rollupOptions: {
+            input: {
+                app: resolve(__dirname, 'resources/js/app.tsx'),
+            },
+        },
     },
 });
