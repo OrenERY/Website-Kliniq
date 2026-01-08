@@ -7,7 +7,7 @@
             <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4 text-purple-600">
                 <i data-feather="lock" class="w-8 h-8"></i>
             </div>
-            <h2 class="text-2xl font-bold text-gray-900">Akses Admin</h2>
+            <h2 class="text-2xl font-bold text-gray-900">Akses Admin KLINIQ</h2>
             <p class="text-gray-500 text-sm mt-1">Masukkan PIN keamanan untuk melanjutkan.</p>
         </div>
 

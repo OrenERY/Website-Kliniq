@@ -86,8 +86,6 @@
                             <option value="Ujungjaya">Ujungjaya</option>
                             <option value="Wado">Wado</option>
                         </select>
-                            <option value="Wado">Wado</option>
-                        </select>
                     </div>
                 </div>
 
@@ -98,19 +96,24 @@
                             <i data-feather="monitor" class="h-5 w-5 text-gray-400"></i>
                         </div>
                         <input type="text" name="no_bpjs" id="no_bpjs" maxlength="13" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md py-2 border" placeholder="Kosongkan jika Pasien Umum">
-                        <p class="mt-1 text-xs text-gray-500">*Jika diisi, pasien tidak perlu membayar pendaftaran.</p>
                     </div>
+                     <p class="mt-1 text-xs text-gray-500">*Jika diisi, pasien tidak perlu membayar pendaftaran.</p>
                 </div>
 
                 <div>
                     <label for="poli_tujuan" class="block text-sm font-medium text-gray-700 mb-1">Poli Tujuan</label>
-                    <select name="poli_tujuan" id="poli_tujuan" required class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md border">
-                        <option value="" disabled selected>Pilih Poli...</option>
-                        <option value="Umum">Poli Umum</option>
-                        <option value="Gigi">Poli Gigi</option>
-                        <option value="Anak">Poli Anak</option>
-                        <option value="Penyakit Dalam">Poli Penyakit Dalam</option>
-                    </select>
+                    <div class="relative rounded-md shadow-sm">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i data-feather="activity" class="h-5 w-5 text-gray-400"></i>
+                        </div>
+                        <select name="poli_tujuan" id="poli_tujuan" required class="focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md py-2 border">
+                            <option value="" disabled selected>Pilih Poli...</option>
+                            <option value="Umum">Poli Umum</option>
+                            <option value="Gigi">Poli Gigi</option>
+                            <option value="Anak">Poli Anak</option>
+                            <option value="Penyakit Dalam">Poli Penyakit Dalam</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div class="pt-4">

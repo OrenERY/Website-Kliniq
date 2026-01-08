@@ -28,8 +28,8 @@
                             <tr>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Poli</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Diagnosa</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tindakan/Resep</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Diagnosa & Catatan</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Detail & Tanda Vital</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Dokter</th>
                             </tr>
                         </thead>
@@ -45,12 +45,24 @@
                                         {{ $visit->poli_tujuan }}
                                     </span>
                                 </td>
-                                <td class="px-6 py-4 text-sm text-gray-900">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                     <div class="max-w-xs truncate" title="{{ $visit->diagnosa }}">
                                         {{ $visit->diagnosa ?: '-' }}
                                     </div>
+                                    @if($visit->catatan_dokter)
+                                        <div class="mt-1 text-xs text-gray-500 italic border-l-2 border-gray-300 pl-2">
+                                            "{{ Str::limit($visit->catatan_dokter, 40) }}"
+                                        </div>
+                                    @endif
                                 </td>
                                 <td class="px-6 py-4 text-sm text-gray-500">
+                                     <div class="grid grid-cols-2 gap-x-4 gap-y-1 text-xs mb-2 bg-gray-50 p-2 rounded">
+                                        <div><span class="font-semibold">TD:</span> {{ $visit->tensi_darah ?? '-' }}</div>
+                                        <div><span class="font-semibold">Suhu:</span> {{ $visit->suhu_tubuh ? $visit->suhu_tubuh.'°C' : '-' }}</div>
+                                        <div><span class="font-semibold">BB:</span> {{ $visit->berat_badan ? $visit->berat_badan.'kg' : '-' }}</div>
+                                        <div><span class="font-semibold">TB:</span> {{ $visit->tinggi_badan ? $visit->tinggi_badan.'cm' : '-' }}</div>
+                                    </div>
+
                                     <div class="flex flex-col gap-1">
                                         @if($visit->tindakan)
                                         <div class="flex items-start text-xs">
@@ -62,13 +74,10 @@
                                             <span class="font-bold mr-1">Obat:</span> {{ Str::limit($visit->resep_obat, 30) }}
                                         </div>
                                         @endif
-                                        @if(!$visit->tindakan && !$visit->resep_obat)
-                                        -
-                                        @endif
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    {{ $visit->dokter_penanggung_jawab ?: '-' }}
+                                    {{ $visit->doctor_name ?? '-' }}
                                 </td>
                             </tr>
                             @empty

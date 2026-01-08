@@ -45,9 +45,22 @@ Route::prefix('admin')->group(function () {
     Route::post('/logout', [App\Http\Controllers\AdminController::class, 'logout'])->name('admin.logout');
 
     Route::get('/', [App\Http\Controllers\AdminController::class, 'index'])->name('admin.dashboard');
-    Route::patch('/assign/{id}', [App\Http\Controllers\AdminController::class, 'assignDoctor'])->name('admin.assign');
+    
+    // New Segmented Routes
+    Route::get('/pembayaran', [App\Http\Controllers\AdminController::class, 'pembayaran'])->name('admin.pembayaran');
+    Route::get('/antrian-poli', [App\Http\Controllers\AdminController::class, 'antrian'])->name('admin.antrian');
+    Route::get('/dokter', [App\Http\Controllers\AdminController::class, 'dokter'])->name('admin.dokter');
+
+    Route::patch('/call/{id}', [App\Http\Controllers\AdminController::class, 'callPatient'])->name('admin.call');
+    Route::patch('/confirm/{id}', [App\Http\Controllers\AdminController::class, 'confirmPatient'])->name('admin.confirm');
+    Route::patch('/skip/{id}', [App\Http\Controllers\AdminController::class, 'skipPatient'])->name('admin.skip');
+    
     Route::patch('/verify/{id}', [App\Http\Controllers\AdminController::class, 'verifyPayment'])->name('admin.verify');
     Route::post('/examination/{id}', [App\Http\Controllers\AdminController::class, 'storeExamination'])->name('admin.store_examination');
+    
+    Route::get('/pasien', [App\Http\Controllers\AdminController::class, 'listPasien'])->name('admin.pasien');
+    Route::get('/pasien/{id}', [App\Http\Controllers\AdminController::class, 'showPasien'])->name('admin.pasien.show');
+    Route::delete('/pasien/{id}', [App\Http\Controllers\AdminController::class, 'destroyPasien'])->name('admin.pasien.destroy');
 });
 
 require __DIR__.'/settings.php';

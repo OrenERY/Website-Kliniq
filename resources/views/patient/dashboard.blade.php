@@ -59,6 +59,29 @@
 
     @if(isset($myQueue))
     
+    @if($myQueue->status == 'memanggil')
+    <div class="mb-8 bg-gradient-to-r from-green-500 to-green-700 rounded-2xl p-6 text-white shadow-xl relative overflow-hidden">
+        <div class="relative z-10 flex flex-col md:flex-row items-center justify-between">
+            <div class="text-center md:text-left mb-6 md:mb-0">
+                <h2 class="text-2xl font-bold mb-2">Giliran Anda!</h2>
+                <p class="text-green-100 text-lg">Silakan segera masuk ke ruang pemeriksaan {{ $myQueue->poli_tujuan }}.</p>
+                <div class="mt-4 inline-flex items-center bg-white/20 backdrop-blur-sm rounded-lg px-4 py-2 border border-white/30">
+                     <i data-feather="bell" class="w-5 h-5 mr-2"></i>
+                     <span class="font-bold">Nomor Antrian Anda Dipanggil</span> 
+                </div>
+            </div>
+            <div class="flex flex-col items-center">
+                 <div class="bg-white/20 p-4 rounded-full mb-2">
+                    <i data-feather="check-circle" class="w-12 h-12"></i>
+                 </div>
+                 <span class="font-bold text-lg">Poli {{ $myQueue->poli_tujuan }}</span>
+            </div>
+        </div>
+        <!-- Decoration -->
+        <div class="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-white opacity-10 rounded-full blur-3xl"></div>
+    </div>
+    @endif
+
     @if($myQueue->status == 'menunggu_pembayaran')
     <div class="mb-8 bg-gradient-to-r from-orange-400 to-red-500 rounded-2xl p-6 text-white shadow-xl relative overflow-hidden">
         <div class="relative z-10 flex flex-col md:flex-row items-center justify-between">
@@ -136,7 +159,7 @@
         </a>
 
         <!-- Menu 2: Riwayat Kunjungan -->
-        <a href="#" class="group bg-white hover:border-blue-300 rounded-2xl p-6 border border-gray-100 shadow-sm transition-all duration-300 hover:-translate-y-1">
+        <a href="{{ route('patient.history') }}" class="group bg-white hover:border-blue-300 rounded-2xl p-6 border border-gray-100 shadow-sm transition-all duration-300 hover:-translate-y-1">
             <div class="bg-purple-100 w-12 h-12 rounded-xl flex items-center justify-center mb-4 text-purple-600 group-hover:scale-110 transition-transform">
                 <i data-feather="clock" class="w-6 h-6"></i>
             </div>
@@ -145,7 +168,7 @@
         </a>
 
         <!-- Menu 3: Pengaturan Akun -->
-        <a href="#" class="group bg-white hover:border-blue-300 rounded-2xl p-6 border border-gray-100 shadow-sm transition-all duration-300 hover:-translate-y-1">
+        <a href="{{ route('patient.settings') }}" class="group bg-white hover:border-blue-300 rounded-2xl p-6 border border-gray-100 shadow-sm transition-all duration-300 hover:-translate-y-1">
             <div class="bg-gray-100 w-12 h-12 rounded-xl flex items-center justify-center mb-4 text-gray-600 group-hover:scale-110 transition-transform">
                 <i data-feather="settings" class="w-6 h-6"></i>
             </div>

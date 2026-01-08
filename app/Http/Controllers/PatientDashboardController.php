@@ -24,7 +24,7 @@ class PatientDashboardController extends Controller
         $myQueue = DB::table('pasiens')
             ->where('nik', session('patient_nik'))
             ->whereDate('created_at', $today)
-            ->whereIn('status', ['menunggu', 'dipanggil', 'menunggu_pembayaran']) // Include pending payment
+            ->whereIn('status', ['menunggu', 'memanggil', 'dipanggil', 'menunggu_pembayaran']) // Include pending payment
             ->orderBy('id', 'desc')
             ->first();
 
