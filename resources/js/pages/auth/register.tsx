@@ -1,5 +1,4 @@
-import { login } from '@/routes';
-import { store } from '@/routes/register';
+import patient from '@/routes/patient';
 import { Form, Head } from '@inertiajs/react';
 
 import InputError from '@/components/input-error';
@@ -13,13 +12,13 @@ import AuthLayout from '@/layouts/auth-layout';
 export default function Register() {
     return (
         <AuthLayout
-            title="Create an account"
-            description="Enter your details below to create your account"
+            title="Pendaftaran Pasien"
+            description="Silakan isi data diri Anda untuk mendaftar"
         >
-            <Head title="Register" />
+            <Head title="Daftar Akun" />
             <Form
-                {...store.form()}
-                resetOnSuccess={['password', 'password_confirmation']}
+                {...patient.register.submit.form()}
+                // resetOnSuccess={['password', 'password_confirmation']} // Removed as we don't use passwords anymore
                 disableWhileProcessing
                 className="flex flex-col gap-6"
             >
@@ -27,84 +26,94 @@ export default function Register() {
                     <>
                         <div className="grid gap-6">
                             <div className="grid gap-2">
-                                <Label htmlFor="name">Name</Label>
+                                <Label htmlFor="nik">NIK (Nomor Induk Kependudukan)</Label>
                                 <Input
-                                    id="name"
+                                    id="nik"
                                     type="text"
+                                    inputMode="numeric"
+                                    maxLength={16}
                                     required
                                     autoFocus
                                     tabIndex={1}
-                                    autoComplete="name"
-                                    name="name"
-                                    placeholder="Full name"
+                                    autoComplete="off"
+                                    name="nik"
+                                    placeholder="16 digit angka"
+                                    onChange={(e) => {
+                                        // Only allow numeric input
+                                        const value = e.target.value.replace(/\D/g, '');
+                                        e.target.value = value.slice(0, 16);
+                                    }}
                                 />
-                                <InputError
-                                    message={errors.name}
-                                    className="mt-2"
-                                />
+                                <InputError message={errors.nik} />
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="email">Email address</Label>
+                                <Label htmlFor="nama">Nama Lengkap</Label>
                                 <Input
-                                    id="email"
-                                    type="email"
+                                    id="nama"
+                                    type="text"
                                     required
                                     tabIndex={2}
-                                    autoComplete="email"
-                                    name="email"
-                                    placeholder="email@example.com"
+                                    autoComplete="name"
+                                    name="nama"
+                                    placeholder="Sesuai KTP"
                                 />
-                                <InputError message={errors.email} />
+                                <InputError message={errors.nama} />
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="password">Password</Label>
+                                <Label htmlFor="tgl_lahir">Tanggal Lahir</Label>
                                 <Input
-                                    id="password"
-                                    type="password"
+                                    id="tgl_lahir"
+                                    type="date"
                                     required
                                     tabIndex={3}
-                                    autoComplete="new-password"
-                                    name="password"
-                                    placeholder="Password"
+                                    name="tgl_lahir"
                                 />
-                                <InputError message={errors.password} />
+                                <InputError message={errors.tgl_lahir} />
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="password_confirmation">
-                                    Confirm password
-                                </Label>
+                                <Label htmlFor="alamat">Alamat Lengkap</Label>
                                 <Input
-                                    id="password_confirmation"
-                                    type="password"
+                                    id="alamat"
+                                    type="text" // Using Input instead of textarea for consistency with UI components, or could be a Textarea if available
                                     required
                                     tabIndex={4}
-                                    autoComplete="new-password"
-                                    name="password_confirmation"
-                                    placeholder="Confirm password"
+                                    autoComplete="street-address"
+                                    name="alamat"
+                                    placeholder="Jalan, RT/RW, Dusun, Desa, Kecamatan..."
                                 />
-                                <InputError
-                                    message={errors.password_confirmation}
+                                <InputError message={errors.alamat} />
+                            </div>
+
+                            <div className="grid gap-2">
+                                <Label htmlFor="no_bpjs">No. BPJS (Opsional)</Label>
+                                <Input
+                                    id="no_bpjs"
+                                    type="text"
+                                    inputMode="numeric"
+                                    tabIndex={5}
+                                    name="no_bpjs"
+                                    placeholder="Jika ada"
                                 />
+                                <InputError message={errors.no_bpjs} />
                             </div>
 
                             <Button
                                 type="submit"
                                 className="mt-2 w-full"
-                                tabIndex={5}
-                                data-test="register-user-button"
+                                tabIndex={6}
                             >
                                 {processing && <Spinner />}
-                                Create account
+                                Daftar Sekarang
                             </Button>
                         </div>
 
                         <div className="text-center text-sm text-muted-foreground">
-                            Already have an account?{' '}
-                            <TextLink href={login()} tabIndex={6}>
-                                Log in
+                            Sudah punya akun?{' '}
+                            <TextLink href={patient.login().url} tabIndex={7}>
+                                Masuk disini
                             </TextLink>
                         </div>
                     </>

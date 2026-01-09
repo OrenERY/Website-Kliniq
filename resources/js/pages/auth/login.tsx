@@ -6,8 +6,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import AuthLayout from '@/layouts/auth-layout';
-import { register } from '@/routes';
-import { store } from '@/routes/login';
+
+import patient from '@/routes/patient';
 import { request } from '@/routes/password';
 import { Form, Head } from '@inertiajs/react';
 
@@ -24,57 +24,54 @@ export default function Login({
 }: LoginProps) {
     return (
         <AuthLayout
-            title="Log in to your account"
-            description="Enter your email and password below to log in"
+            title="Masuk ke Akun Anda"
+            description="Masukkan NIK dan Nama Lengkap untuk masuk"
         >
-            <Head title="Log in" />
+            <Head title="Masuk" />
 
             <Form
-                {...store.form()}
-                resetOnSuccess={['password']}
+                {...patient.login.form()}
+                // resetOnSuccess={['password']}
                 className="flex flex-col gap-6"
             >
                 {({ processing, errors }) => (
                     <>
                         <div className="grid gap-6">
                             <div className="grid gap-2">
-                                <Label htmlFor="email">Email address</Label>
+                                <Label htmlFor="nik">NIK (Nomor Induk Kependudukan)</Label>
                                 <Input
-                                    id="email"
-                                    type="email"
-                                    name="email"
+                                    id="nik"
+                                    type="text"
+                                    inputMode="numeric"
+                                    maxLength={16}
+                                    name="nik"
                                     required
                                     autoFocus
                                     tabIndex={1}
-                                    autoComplete="email"
-                                    placeholder="email@example.com"
+                                    autoComplete="off"
+                                    placeholder="16 digit angka"
+                                    onChange={(e) => {
+                                        const value = e.target.value.replace(/\D/g, '');
+                                        e.target.value = value.slice(0, 16);
+                                    }}
                                 />
-                                <InputError message={errors.email} />
+                                <InputError message={errors.nik} />
                             </div>
 
                             <div className="grid gap-2">
                                 <div className="flex items-center">
-                                    <Label htmlFor="password">Password</Label>
-                                    {canResetPassword && (
-                                        <TextLink
-                                            href={request()}
-                                            className="ml-auto text-sm"
-                                            tabIndex={5}
-                                        >
-                                            Forgot password?
-                                        </TextLink>
-                                    )}
+                                    <Label htmlFor="nama">Nama Lengkap</Label>
                                 </div>
                                 <Input
-                                    id="password"
-                                    type="password"
-                                    name="password"
+                                    id="nama"
+                                    type="text"
+                                    name="nama"
                                     required
                                     tabIndex={2}
-                                    autoComplete="current-password"
-                                    placeholder="Password"
+                                    autoComplete="name"
+                                    placeholder="Sesuai KTP"
                                 />
-                                <InputError message={errors.password} />
+                                <InputError message={errors.nama} />
                             </div>
 
                             <div className="flex items-center space-x-3">
@@ -83,7 +80,7 @@ export default function Login({
                                     name="remember"
                                     tabIndex={3}
                                 />
-                                <Label htmlFor="remember">Remember me</Label>
+                                <Label htmlFor="remember">Ingat Saya</Label>
                             </div>
 
                             <Button
@@ -94,15 +91,15 @@ export default function Login({
                                 data-test="login-button"
                             >
                                 {processing && <Spinner />}
-                                Log in
+                                Masuk
                             </Button>
                         </div>
 
                         {canRegister && (
                             <div className="text-center text-sm text-muted-foreground">
-                                Don't have an account?{' '}
-                                <TextLink href={register()} tabIndex={5}>
-                                    Sign up
+                                Belum punya akun?{' '}
+                                <TextLink href={patient.register.url()} tabIndex={5}>
+                                    Daftar sekarang
                                 </TextLink>
                             </div>
                         )}
